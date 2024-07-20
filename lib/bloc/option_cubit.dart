@@ -2,7 +2,7 @@ import 'dart:io';
 
 import 'package:bloc/bloc.dart';
 import 'package:file_rename/config/config.dart';
-import 'package:meta/meta.dart';
+import 'package:flutter/material.dart';
 
 part 'option_state.dart';
 
@@ -21,6 +21,10 @@ class OptionCubit extends Cubit<OptionState> {
     emit(OptionLoaded());
   }
 
+  void createOption(String option, OptionType optionType){
+    File(getOptionPath(optionType)).writeAsStringSync(Platform.lineTerminator + option, mode: FileMode.append);
+  }
+
   List<String> getOptionList(OptionType optionType) {
     switch (optionType) {
       case OptionType.actor:
@@ -29,4 +33,9 @@ class OptionCubit extends Cubit<OptionState> {
         return studioList;
     }
   }
+
+  String getOptionPath(OptionType optionType) => switch(optionType) {
+    OptionType.actor => actorListPath,
+    OptionType.studio => studioListPath
+  };
 }

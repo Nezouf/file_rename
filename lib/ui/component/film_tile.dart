@@ -73,11 +73,18 @@ class FilmTileState extends State<FilmTile> {
                       controller: fieldTextEditingController,
                       focusNode: fieldFocusNode,
                       onSubmitted: (String value) {
-                        setState(() {
-                          print('Submitted $value');
-                          widget.filmFile.actorList.add(value);
-                        });
-                        onFieldSubmitted();
+
+                        if (context
+                            .read<OptionCubit>()
+                            .getOptionList(OptionType.actor).any( (String element) => element.toLowerCase().contains(value.toLowerCase())))
+                          {
+                            onFieldSubmitted();
+                          } else {
+                            context.read<OptionCubit>().createOption(value, OptionType.actor);
+                            setState(() {
+                              widget.filmFile.actorList.add(value);
+                            });
+                        }
                         fieldTextEditingController.text = '';
                         fieldFocusNode.requestFocus();
                       },
@@ -86,7 +93,7 @@ class FilmTileState extends State<FilmTile> {
                   onSelected: (String value) {
                     setState(() {
                       print('onSelected $value');
-                      widget.filmFile.actorList.last = value;
+                      widget.filmFile.actorList.add(value);
                     });
                   },
                 ),
