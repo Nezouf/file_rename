@@ -34,7 +34,7 @@ class FileRenameCubit extends Cubit<FileRenameState> {
         newFileName += ' - ${filmFile.actorList.join(", ")}';
       }
       filmFile.file
-          .renameSync('${filmFile.file.pathWithoutFileName}/$newFileName/${filmFile.file.fileExtention}');
+          .renameSync('${filmFile.file.pathWithoutFileName}$newFileName.${filmFile.file.fileExtention}');
     }
     filmFiles.clear();
     emit(FilesPickInitial());
