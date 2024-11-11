@@ -81,6 +81,15 @@ class PickFilePage extends StatelessWidget {
         const SizedBox(height: 20),
         ElevatedButton(
           onPressed: () {
+            if (!context
+                .read<OptionCubit>()
+                .getOptionList(OptionType.studio)
+                .any((String element) =>
+                    element.toLowerCase().contains(studio))) {
+              context
+                  .read<OptionCubit>()
+                  .createOption(studio, OptionType.studio);
+            }
             context.read<FileRenameCubit>().renameFiles(filmFiles, studio);
           },
           child: const Text('Validate'),
